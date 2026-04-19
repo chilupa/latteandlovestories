@@ -7,14 +7,25 @@ try {
   /* ignore */
 }
 
+/** Avatar URLs come from Supabase Storage (`*.supabase.co`). Always allow this pattern so
+ *  production builds still work if NEXT_PUBLIC_SUPABASE_URL was missing at build time (picomatch syntax). */
 const nextConfig = {
   images: {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: supabaseHost,
+        hostname: "*.supabase.co",
         pathname: "/storage/v1/object/public/**",
       },
+      ...(supabaseHost !== "localhost"
+        ? [
+            {
+              protocol: "https",
+              hostname: supabaseHost,
+              pathname: "/storage/v1/object/public/**",
+            },
+          ]
+        : []),
     ],
   },
 };
