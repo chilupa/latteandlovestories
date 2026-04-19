@@ -9,13 +9,22 @@ import {
   Bookmark,
 } from "lucide-react";
 
-/** Default profile; override with NEXT_PUBLIC_SITE_USERNAME in .env.local */
+/** Default profile; optional override via NEXT_PUBLIC_INSTAGRAM_URL in .env.local */
 const DEFAULT_INSTAGRAM =
   process.env.NEXT_PUBLIC_INSTAGRAM_URL?.trim() ||
   "https://www.instagram.com/latteandlovestories/";
 
+/** Landing “Visit my link page” slug — server-only `SITE_USERNAME` preferred; legacy `NEXT_PUBLIC_SITE_USERNAME` still supported. */
+function getLandingUsername() {
+  return (
+    process.env.SITE_USERNAME?.trim() ||
+    process.env.NEXT_PUBLIC_SITE_USERNAME?.trim() ||
+    ""
+  );
+}
+
 export default function HomePage() {
-  const publicSlug = process.env.NEXT_PUBLIC_SITE_USERNAME?.trim();
+  const publicSlug = getLandingUsername();
   const year = new Date().getFullYear();
   const instagramUrl = DEFAULT_INSTAGRAM;
 
@@ -153,7 +162,7 @@ export default function HomePage() {
                 <p className="mt-3 text-sm leading-relaxed text-[#6b5a5a]">
                   Add{" "}
                   <code className="rounded bg-muted px-1.5 py-0.5 text-xs">
-                    NEXT_PUBLIC_SITE_USERNAME
+                    SITE_USERNAME
                   </code>{" "}
                   to your env to unlock the primary button on this page (same as
                   your profile username in the editor).

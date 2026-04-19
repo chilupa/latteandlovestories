@@ -10,7 +10,7 @@ A mobile-first **link-in-bio** site (Linktree-style): a **cozy public landing** 
 
 | Path | Who | Purpose |
 |------|-----|---------|
-| `/` | Everyone | Visitor landing — **Open my links** when `NEXT_PUBLIC_SITE_USERNAME` is set; **no editor/login links** on this page |
+| `/` | Everyone | Visitor landing — **Open my links** when `SITE_USERNAME` is set; **no editor/login links** on this page |
 | `/[username]` | Everyone | Public profile (avatar, bio, themed links, optional social row, footer) |
 | `/login` | Owner | Email + password sign-in (no public sign-up UI) |
 | `/dashboard` | Owner only | Edit profile (including **username** / URL slug), theme, links (drag-and-drop), avatar upload |
@@ -34,7 +34,7 @@ Disable public sign-ups in Supabase (**Authentication → Providers → Email**)
 
 ## Features
 
-- **Landing** — Warm copy, primary CTA to `/{NEXT_PUBLIC_SITE_USERNAME}`; placeholder card if slug env is unset (dev hint for missing env)
+- **Landing** — Warm copy, primary CTA to `/{SITE_USERNAME}`; placeholder card if slug env is unset (dev hint for missing env)
 - **Profile** — Avatar (Storage), display name, **editable username** (public URL), bio, optional Instagram / YouTube / TikTok / website / contact email
 - **Links** — Title, validated URL, optional icon keys (Lucide), visibility, highlight style, **drag-and-drop order**
 - **Theme** — Solid or gradient/CSS background, accent, button shape (pill / soft / outline); live preview on desktop
@@ -126,7 +126,7 @@ Copy **`.env.example`** → **`.env.local`** in the repo root.
 | `NEXT_PUBLIC_AVATAR_BUCKET` | Optional; default `avatars` |
 | **`ALLOWED_OWNER_EMAIL`** | **Required for `/dashboard`:** owner’s Supabase Auth email |
 | `ALLOWED_OWNER_ID` | Optional: owner’s `auth.users` UUID |
-| **`NEXT_PUBLIC_SITE_USERNAME`** | **Recommended:** profile slug for landing **Open my links** → `/{slug}` (same as dashboard username) |
+| **`SITE_USERNAME`** | **Recommended:** profile slug for landing **Open my links** → `/{slug}` (same as dashboard username). Server-only — not bundled to the browser. Legacy: `NEXT_PUBLIC_SITE_USERNAME` still works if unset. |
 
 After changing any **`NEXT_PUBLIC_*`** variable, **restart** `npm run dev` or rebuild — values are baked into the client bundle.
 
@@ -169,9 +169,9 @@ npm run dev
 ```
 
 1. Create the **owner** user in Supabase and set **`ALLOWED_OWNER_EMAIL`** (and Supabase URL + client key).
-2. Set **`NEXT_PUBLIC_SITE_USERNAME`** to the same slug you will use on the profile (optional until you pick a username).
+2. Set **`SITE_USERNAME`** to the same slug you will use on the profile (optional until you pick a username).
 3. Sign in at **`/login`**, open **`/dashboard`**, choose **username** once, then edit links, theme, avatar.
-4. Share **`http://localhost:3000/<username>`** with visitors; landing **`/`** uses **`NEXT_PUBLIC_SITE_USERNAME`** for the main button.
+4. Share **`http://localhost:3000/<username>`** with visitors; landing **`/`** reads **`SITE_USERNAME`** for the main button.
 
 ---
 
