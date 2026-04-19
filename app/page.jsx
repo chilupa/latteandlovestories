@@ -182,7 +182,7 @@ export default function HomePage() {
             <span className="font-medium text-[#5c4b4d]">
               @latteandlovestories
             </span>
-            , where the community hangs out.
+            , my Bookstagram account.
           </p>
           <Button
             size="lg"
