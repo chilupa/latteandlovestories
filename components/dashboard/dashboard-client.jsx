@@ -20,6 +20,42 @@ import {
 } from "@/app/dashboard/actions";
 import { Loader2 } from "lucide-react";
 
+const THEME_PRESETS = [
+  {
+    id: "rose-latte",
+    name: "Rose Latte",
+    accent: "#be185d",
+    backgroundType: "gradient",
+    background: "linear-gradient(165deg, #fdf2f8 0%, #fff7ed 45%, #faf5ff 100%)",
+    buttonStyle: "pill",
+  },
+  {
+    id: "mocha-cream",
+    name: "Mocha Cream",
+    accent: "#9a3412",
+    backgroundType: "gradient",
+    background: "linear-gradient(160deg, #fffbeb 0%, #fef3c7 45%, #fee2e2 100%)",
+    buttonStyle: "soft",
+  },
+  {
+    id: "dusty-lilac",
+    name: "Dusty Lilac",
+    accent: "#7c3aed",
+    backgroundType: "gradient",
+    background: "linear-gradient(165deg, #faf5ff 0%, #fce7f3 50%, #fdf2f8 100%)",
+    buttonStyle: "pill",
+  },
+  {
+    id: "sage-paper",
+    name: "Sage Paper",
+    accent: "#0f766e",
+    backgroundType: "solid",
+    background: "#f4f7f2",
+    buttonStyle: "outline",
+  },
+];
+const CUSTOM_PRESET_KEY = "latteandlovestories:theme-preset";
+
 export default function DashboardClient({
   userId,
   initialProfile,
@@ -51,6 +87,10 @@ export default function DashboardClient({
 
   const [profileSaving, setProfileSaving] = useState(false);
   const [themeSaving, setThemeSaving] = useState(false);
+  const [hasSavedPreset, setHasSavedPreset] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return Boolean(window.localStorage.getItem(CUSTOM_PRESET_KEY));
+  });
 
   /* Sync local editor state when server props refresh (e.g. after save or avatar upload). */
   /* eslint-disable react-hooks/set-state-in-effect */
@@ -159,6 +199,47 @@ export default function DashboardClient({
       return;
     }
     router.refresh();
+  }
+
+  function applyPreset(preset) {
+    setBgType(preset.backgroundType);
+    setBgValue(preset.background);
+    setAccent(preset.accent);
+    setBtnStyle(preset.buttonStyle);
+  }
+
+  function resetThemeToDefault() {
+    applyPreset(THEME_PRESETS[0]);
+  }
+
+  function saveCurrentAsPreset() {
+    if (typeof window === "undefined") return;
+    window.localStorage.setItem(
+      CUSTOM_PRESET_KEY,
+      JSON.stringify({
+        backgroundType: bgType,
+        background: bgValue,
+        accent,
+        buttonStyle: btnStyle,
+      }),
+    );
+    setHasSavedPreset(true);
+  }
+
+  function applySavedPreset() {
+    if (typeof window === "undefined") return;
+    const raw = window.localStorage.getItem(CUSTOM_PRESET_KEY);
+    if (!raw) return;
+    try {
+      const parsed = JSON.parse(raw);
+      if (!parsed || typeof parsed !== "object") return;
+      setBgType(parsed.backgroundType ?? "gradient");
+      setBgValue(parsed.background ?? "");
+      setAccent(parsed.accent ?? "#be185d");
+      setBtnStyle(parsed.buttonStyle ?? "pill");
+    } catch {
+      // Ignore invalid local storage payloads.
+    }
   }
 
   if (!hasProfile) {
@@ -364,6 +445,47 @@ export default function DashboardClient({
             </CardHeader>
             <CardContent>
               <form className="space-y-4" onSubmit={handleSaveTheme}>
+                <div className="space-y-2">
+                  <Label>Quick presets</Label>
+                  <div className="flex flex-wrap gap-2">
+                    <Button type="button" variant="secondary" onClick={saveCurrentAsPreset}>
+                      Save current as custom
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={applySavedPreset}
+                      disabled={!hasSavedPreset}
+                    >
+                      Apply saved custom
+                    </Button>
+                    <Button type="button" variant="outline" onClick={resetThemeToDefault}>
+                      Reset to default
+                    </Button>
+                  </div>
+                  <div className="grid gap-2 sm:grid-cols-2">
+                    {THEME_PRESETS.map((preset) => (
+                      <button
+                        key={preset.id}
+                        type="button"
+                        onClick={() => applyPreset(preset)}
+                        className="flex items-center gap-3 rounded-xl border border-border bg-white px-3 py-2 text-left text-sm shadow-inner shadow-black/5 transition-colors hover:bg-muted"
+                      >
+                        <span
+                          className="h-6 w-6 shrink-0 rounded-full border border-black/10"
+                          style={{
+                            background:
+                              preset.backgroundType === "solid"
+                                ? preset.background
+                                : preset.background,
+                          }}
+                          aria-hidden
+                        />
+                        <span className="font-medium">{preset.name}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="space-y-2">
                     <Label htmlFor="bg-type">Background type</Label>

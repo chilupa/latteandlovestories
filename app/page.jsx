@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import {
   BookOpen,
   Coffee,
+  BookHeart,
   Heart,
   Instagram,
   Sparkles,
@@ -38,9 +39,15 @@ export default function HomePage() {
             "radial-gradient(circle at 18% 18%, rgba(244, 114, 182, 0.32), transparent 42%), radial-gradient(circle at 82% 12%, rgba(251, 191, 36, 0.22), transparent 38%), radial-gradient(circle at 50% 88%, rgba(167, 139, 250, 0.18), transparent 48%)",
         }}
       />
+      <div className="pointer-events-none absolute inset-0 z-0" aria-hidden>
+        <Coffee className="animate-float-soft absolute left-[8%] top-[16%] h-7 w-7 text-amber-600/45 [animation-delay:0.6s]" />
+        <BookHeart className="animate-float-soft absolute right-[10%] top-[22%] h-7 w-7 text-rose-400/45 [animation-delay:1.2s]" />
+        <BookOpen className="animate-float-soft absolute left-[12%] top-[58%] h-6 w-6 text-violet-400/40 [animation-delay:0.2s]" />
+        <Coffee className="animate-float-soft absolute bottom-[12%] right-[14%] h-6 w-6 text-amber-500/40 [animation-delay:1.8s]" />
+      </div>
 
       <header className="relative z-10 mx-auto w-full max-w-3xl px-6 pb-6 pt-10 text-center sm:pt-14">
-        <p className="font-display text-3xl font-semibold tracking-tight text-[#3f2d30] sm:text-4xl">
+        <p className="font-display text-[2.2rem] font-semibold tracking-tight text-[#3f2d30] sm:text-[2.7rem]">
           Latte & Love Stories
         </p>
         <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-[#7a6568]">
@@ -61,7 +68,7 @@ export default function HomePage() {
 
           <h1
             id="landing-hero-heading"
-            className="font-display text-[2rem] font-semibold leading-[1.12] tracking-tight text-[#2d2424] sm:text-[2.75rem] sm:leading-tight"
+            className="font-display text-[1.65rem] font-semibold leading-[1.18] tracking-[-0.01em] text-[#2d2424] sm:text-[2.2rem] sm:leading-tight sm:tracking-tight"
           >
             For anyone who falls in love with stories: one chapter, one latte
             at a time.
@@ -74,16 +81,13 @@ export default function HomePage() {
           </p>
         </section>
 
-        <section
-          className="mt-14 grid gap-4 sm:grid-cols-3"
-          aria-label="What you’ll find here"
-        >
-          <div className="rounded-2xl border border-white/80 bg-white/70 p-6 text-left shadow-md shadow-rose-900/5 backdrop-blur">
+        <section className="mt-14 grid gap-4 sm:grid-cols-3" aria-label="What you’ll find here">
+          <div className="animate-fade-rise rounded-2xl border border-white/80 bg-white/70 p-6 text-left shadow-md shadow-rose-900/5 backdrop-blur transition-transform duration-300 hover:-translate-y-1 hover:shadow-lg">
             <BookOpen
               className="mb-3 h-8 w-8 text-rose-400/95"
               aria-hidden
             />
-            <h2 className="font-display text-lg font-semibold text-[#3f2d30]">
+            <h2 className="font-display text-lg font-semibold tracking-[-0.005em] text-[#3f2d30] sm:tracking-normal">
               Books I love
             </h2>
             <p className="mt-2 text-sm leading-relaxed text-[#6b5a5a]">
@@ -91,24 +95,24 @@ export default function HomePage() {
               the last page.
             </p>
           </div>
-          <div className="rounded-2xl border border-white/80 bg-white/70 p-6 text-left shadow-md shadow-rose-900/5 backdrop-blur">
+          <div className="animate-fade-rise rounded-2xl border border-white/80 bg-white/70 p-6 text-left shadow-md shadow-rose-900/5 backdrop-blur transition-transform duration-300 [animation-delay:120ms] hover:-translate-y-1 hover:shadow-lg">
             <Coffee
               className="mb-3 h-8 w-8 text-amber-600/85"
               aria-hidden
             />
-            <h2 className="font-display text-lg font-semibold text-[#3f2d30]">
+            <h2 className="font-display text-lg font-semibold tracking-[-0.005em] text-[#3f2d30] sm:tracking-normal">
               Cozy vibes
             </h2>
             <p className="mt-2 text-sm leading-relaxed text-[#6b5a5a]">
               The latte to your TBR: soft light, honest thoughts, no rush.
             </p>
           </div>
-          <div className="rounded-2xl border border-white/80 bg-white/70 p-6 text-left shadow-md shadow-rose-900/5 backdrop-blur sm:col-span-1">
+          <div className="animate-fade-rise rounded-2xl border border-white/80 bg-white/70 p-6 text-left shadow-md shadow-rose-900/5 backdrop-blur transition-transform duration-300 [animation-delay:220ms] hover:-translate-y-1 hover:shadow-lg sm:col-span-1">
             <Bookmark
               className="mb-3 h-8 w-8 text-violet-400/95"
               aria-hidden
             />
-            <h2 className="font-display text-lg font-semibold text-[#3f2d30]">
+            <h2 className="font-display text-lg font-semibold tracking-[-0.005em] text-[#3f2d30] sm:tracking-normal">
               All my links
             </h2>
             <p className="mt-2 text-sm leading-relaxed text-[#6b5a5a]">

@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { ProfileLinkButton } from "@/components/profile-link-button";
 import { OptionalSocialRow } from "@/components/optional-social-row";
@@ -23,13 +22,12 @@ export function ProfilePublicView({ profile, links }) {
           <header className="flex flex-col items-center text-center">
             <div className="relative mb-5 h-28 w-28 overflow-hidden rounded-full ring-4 ring-white shadow-lg shadow-rose-900/10">
               {profile.avatar_url ? (
-                <Image
+                /* eslint-disable-next-line @next/next/no-img-element -- user Storage URLs; next/image SSR can throw if patterns/env mismatch */
+                <img
                   src={profile.avatar_url}
                   alt={`${profile.display_name || profile.username} portrait`}
-                  fill
-                  sizes="112px"
-                  className="object-cover"
-                  priority
+                  className="absolute inset-0 h-full w-full object-cover"
+                  decoding="async"
                 />
               ) : (
                 <div
